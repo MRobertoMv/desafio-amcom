@@ -22,7 +22,7 @@ public class ItemOrderEntity implements Serializable {
     private LocalDateTime updateddAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false) // Creates a foreign key column in ORDER_ITEMS table
+    @JoinColumn(name = "id", nullable = false) // Creates a foreign key column in ORDER_ITEMS table
     private OrderEntity order;
 
     public ItemOrderPk getId() {

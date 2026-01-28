@@ -1,0 +1,12 @@
+# IDE Settings
+.idea/
+
+# Build Artifacts
+target/        # Maven
+build/         # Gradle
+out/
+bin/
+*.jar
+*.war
+*.class
+/target
