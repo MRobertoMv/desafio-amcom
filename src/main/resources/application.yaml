@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: order-api
+
+  jpa:
+    hibernate:
+    ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orderdb
+    username: postgres
+    password: postgres
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+logging:
+  level:
+    com:
+      example:
+        myapp:
+          service: TRACE
+
+
+# Optional: Flyway specific properties (defaults are usually fine)
+  flyway:
+    enabled: true
+  # Specifies the location of migration scripts (default is classpath:db/migration)
+    locations: classpath:db/migration
