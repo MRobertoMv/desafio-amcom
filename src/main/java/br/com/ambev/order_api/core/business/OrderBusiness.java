@@ -1,4 +1,4 @@
-package br.com.ambev.order_api.core;
+package br.com.ambev.order_api.core.business;
 
 import br.com.ambev.order_api.core.domain.Order;
 import br.com.ambev.order_api.core.enums.StatusOrder;

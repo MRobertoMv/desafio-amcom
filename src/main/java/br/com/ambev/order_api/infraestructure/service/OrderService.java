@@ -1,6 +1,6 @@
 package br.com.ambev.order_api.infraestructure.service;
 
-import br.com.ambev.order_api.core.OrderBusiness;
+import br.com.ambev.order_api.core.business.OrderBusiness;
 import br.com.ambev.order_api.core.domain.Order;
 import br.com.ambev.order_api.core.enums.StatusOrder;
 import br.com.ambev.order_api.infraestructure.entity.OrderEntity;

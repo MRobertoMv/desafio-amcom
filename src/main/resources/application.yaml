@@ -11,6 +11,23 @@ spring:
 #      password: a!m#Com
 #      roles: USER,ADMIN
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:29092
+      group-id: order_api_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.learning.events # change this with your event packages
+      producer:
+        acks: -1
+        bootstrap-servers: localhost:29092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
   jpa:
     hibernate:
     ddl-auto: none
@@ -36,10 +53,13 @@ spring:
 
 logging:
   level:
-    com:
-      example:
-        myapp:
-          service: TRACE
+    br:
+      com:
+        ambev: TRACE
+
+    org:
+      hibernate: ERROR
+      springframework: TRACE
 
 
 # Optional: Flyway specific properties (defaults are usually fine)
@@ -47,5 +67,9 @@ logging:
     enabled: true
   # Specifies the location of migration scripts (default is classpath:db/migration)
     locations: classpath:db/migration
+
+app:
+  topic:
+    name: order_calcule_topic
 
 
