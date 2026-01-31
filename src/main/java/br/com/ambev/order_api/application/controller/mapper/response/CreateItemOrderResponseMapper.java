@@ -10,7 +10,7 @@ import java.util.List;
 public class CreateItemOrderResponseMapper {
     public CreateItemOrderResponse modelToDto(ItemOrder item) {
         return new CreateItemOrderResponse(
-                item.nroItem(),
+                item.nrItem(),
                 item.codProduct(),
                 item.qty(),
                 item.vlUnit()

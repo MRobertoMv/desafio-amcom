@@ -6,13 +6,15 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "tb_order")
 public class OrderEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_generator")
+    @SequenceGenerator(name = "order_generator", sequenceName = "tb_order_seq", allocationSize = 1)
     private Long id;
 
     private String nrOrder;
@@ -26,7 +28,7 @@ public class OrderEntity implements Serializable {
 
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ItemOrderEntity> items;
 
     public Long getId() {
@@ -76,4 +78,29 @@ public class OrderEntity implements Serializable {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public List<ItemOrderEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemOrderEntity> items) {
+        this.items = items;
+    }
+
+    public void addItem(ItemOrderEntity item) {
+        if (item != null) {
+            if (items == null) {
+                items = new ArrayList<>();
+            }
+            items.add(item);
+            item.setOrder(this);
+        }
+    }
+
+    public void setOrdemItems() {
+        if (items != null) {
+            items.forEach(item -> item.setOrder(this));
+        }
+    }
+
 }

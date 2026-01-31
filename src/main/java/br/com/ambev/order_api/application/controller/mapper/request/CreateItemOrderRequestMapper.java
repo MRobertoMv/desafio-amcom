@@ -11,7 +11,7 @@ import java.util.List;
 public class CreateItemOrderRequestMapper {
     public ItemOrder dtoToDomain(CreateItemOrderRequest item) {
         return new ItemOrder(
-                item.nroItem(),
+                item.nrItem(),
                 item.codProduct(),
                 item.qty(),
                 item.vlUnit(),

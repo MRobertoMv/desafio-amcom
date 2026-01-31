@@ -3,8 +3,10 @@ package br.com.ambev.order_api.infraestructure.service;
 import br.com.ambev.order_api.core.OrderBusiness;
 import br.com.ambev.order_api.core.domain.Order;
 import br.com.ambev.order_api.core.enums.StatusOrder;
+import br.com.ambev.order_api.infraestructure.entity.OrderEntity;
 import br.com.ambev.order_api.infraestructure.mapper.OrderMapper;
 import br.com.ambev.order_api.infraestructure.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +22,20 @@ public class OrderService implements OrderBusiness {
         this.orderMapper = orderMapper;
     }
 
+    @Transactional
     @Override
     public Order createOrder(Order order) {
-        return
-                orderMapper.entityToModel(
-                orderRepository.save(orderMapper.modelToEntity(order))
-                );
+
+        OrderEntity orderEntity = orderMapper.modelToEntity(order);
+
+        orderEntity.setOrdemItems();
+
+        OrderEntity orderEntitySave = orderRepository.save(orderEntity);
+
+        Order orderResult = orderMapper.entityToModel(orderEntitySave);
+
+        return orderResult;
+
     }
 
     @Override

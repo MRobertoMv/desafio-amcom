@@ -1,12 +1,26 @@
+server:
+  port: 9080
+
 spring:
   application:
     name: order-api
+
+#  security:
+#    user:
+#      name: order-user
+#      password: a!m#Com
+#      roles: USER,ADMIN
 
   jpa:
     hibernate:
     ddl-auto: none
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        id:
+          sequence:
+            increment-size-mismatch_strategy: FIX
 
   datasource:
     url: jdbc:postgresql://localhost:5432/orderdb
@@ -33,3 +47,5 @@ logging:
     enabled: true
   # Specifies the location of migration scripts (default is classpath:db/migration)
     locations: classpath:db/migration
+
+

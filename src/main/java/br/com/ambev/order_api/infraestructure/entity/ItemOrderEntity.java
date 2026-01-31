@@ -6,31 +6,71 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Table(name = "item_order")
+@Table(name = "tb_item_order")
 public class ItemOrderEntity implements Serializable {
 
-    @EmbeddedId
-    private ItemOrderPk id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_order_generator")
+    @SequenceGenerator(name = "item_order_generator", sequenceName = "tb_item_order_seq", allocationSize = 1)
+    private Long id;
 
+    @Column(name = "nr_item")
+    private Long nrItem;
+
+    @Column(name = "cd_product")
     private Long codProduct;
     private Double qty;
+
     private BigDecimal vlUnit;
     private LocalDateTime createdAt;
 
-    private LocalDateTime updateddAt;
+    private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", nullable = false) // Creates a foreign key column in ORDER_ITEMS table
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
-    public ItemOrderPk getId() {
+    public ItemOrderEntity() {
+    }
+
+    public ItemOrderEntity(Long nrItem, Long codProduct, Double qty, BigDecimal vlUnit, LocalDateTime createdAt, LocalDateTime updatedAt, OrderEntity order) {
+        this.nrItem = nrItem;
+        this.codProduct = codProduct;
+        this.qty = qty;
+        this.vlUnit = vlUnit;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.order = order;
+    }
+
+    public ItemOrderEntity(long id, Long nrItem, Long codProduct, Double qty, BigDecimal vlUnit, LocalDateTime createdAt, LocalDateTime updatedAt, OrderEntity order) {
+        this.id = id;
+        this.nrItem = nrItem;
+        this.codProduct = codProduct;
+        this.qty = qty;
+        this.vlUnit = vlUnit;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.order = order;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(ItemOrderPk id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public Long getNrItem() {
+        return nrItem;
+    }
+
+    public void setNrItem(Long nrItem) {
+        this.nrItem = nrItem;
     }
 
     public Long getCodProduct() {
@@ -65,12 +105,12 @@ public class ItemOrderEntity implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdateddAt() {
-        return updateddAt;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdateddAt(LocalDateTime updateddAt) {
-        this.updateddAt = updateddAt;
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public OrderEntity getOrder() {
@@ -79,5 +119,16 @@ public class ItemOrderEntity implements Serializable {
 
     public void setOrder(OrderEntity order) {
         this.order = order;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof ItemOrderEntity that)) return false;
+        return Objects.equals(nrItem, that.nrItem) && Objects.equals(order, that.order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nrItem, order);
     }
 }

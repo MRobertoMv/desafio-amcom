@@ -5,14 +5,14 @@ import br.com.ambev.order_api.core.exceptions.OrderBadRequestException;
 import java.math.BigDecimal;
 
 public record CreateItemOrderRequest(
-        Long nroItem,
+        Long nrItem,
         Long codProduct,
         Double qty,
         BigDecimal vlUnit
 ) {
     public CreateItemOrderRequest {
-        if (nroItem == null ||  nroItem < 1) {
-            throw new OrderBadRequestException("Nro item null or invalid");
+        if (nrItem == null ||  nrItem < 1) {
+            throw new OrderBadRequestException("Number item null or invalid");
         }
 
         if (codProduct == null ||  codProduct < 3) {

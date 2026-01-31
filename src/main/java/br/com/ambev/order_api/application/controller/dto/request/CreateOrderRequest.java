@@ -20,7 +20,7 @@ public record CreateOrderRequest(
             throw new OrderBadRequestException("Items is required");
         } else {
             Map<Long, List<CreateItemOrderRequest>> duplicates = items.stream()
-                    .collect(Collectors.groupingBy(CreateItemOrderRequest::nroItem))
+                    .collect(Collectors.groupingBy(CreateItemOrderRequest::nrItem))
                     .entrySet().stream()
                     .filter(entry -> entry.getValue().size() > 1)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

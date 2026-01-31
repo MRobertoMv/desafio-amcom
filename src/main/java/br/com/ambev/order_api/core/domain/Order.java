@@ -37,7 +37,7 @@ public record Order(
             throw new OrderBadRequestException("items is required");
         } else {
             Map<Long, List<ItemOrder>> duplicates = items.stream()
-                    .collect(Collectors.groupingBy(ItemOrder::nroItem))
+                    .collect(Collectors.groupingBy(ItemOrder::nrItem))
                     .entrySet().stream()
                     .filter(entry -> entry.getValue().size() > 1)
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
