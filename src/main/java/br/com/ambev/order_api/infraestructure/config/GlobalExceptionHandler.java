@@ -2,6 +2,7 @@ package br.com.ambev.order_api.infraestructure.config;
 
 import br.com.ambev.order_api.core.exceptions.DuplicateNrOrderException;
 import br.com.ambev.order_api.core.exceptions.OrderBadRequestException;
+import br.com.ambev.order_api.core.exceptions.OrderCalculatedNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +17,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(DuplicateNrOrderException.class)
     ProblemDetail handleDuplicateNrOrderException(DuplicateNrOrderException e) {
         return mountProblemDetail(e.getLocalizedMessage(), HttpStatus.UNPROCESSABLE_CONTENT, e.getTitle(), e.getDetail());
+    }
+
+    @ExceptionHandler(OrderCalculatedNotFoundException.class)
+    ProblemDetail handleOrderCalculatedNotFoundException(OrderCalculatedNotFoundException e) {
+        return mountProblemDetail(e.getLocalizedMessage(), HttpStatus.NOT_FOUND, e.getTitle(), e.getDetail());
     }
 
     @ExceptionHandler(OrderBadRequestException.class)

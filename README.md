@@ -88,3 +88,62 @@ resultado:
   "createdAt": "2026-02-01T10:44:21.445635419"
 }
 ```
+
+6-Será enviado para um tópico kafka o registro novo para cálculo
+
+7-Para consultar esse retorno:
+```bash
+curl --request GET \
+  --url http://localhost:9080/v1/order/calculated \
+  --header 'authorization: Basic dXNlcjpjZDg5ODNmZC0wNDc1LTRhOWItODY1OC05Mjg1YzI1YTZjYTk='
+```
+
+resultado:
+```bash
+{
+  "orders": [
+    {
+      "nrOrder": "PED0093",
+      "status": "CALCULATION_OK",
+      "vlTotal": 13142.95,
+      "items": [
+        {
+          "nrItem": 1,
+          "codProduct": 87654,
+          "qty": 10,
+          "vlUnit": 1045.87,
+          "createdAt": "2026-02-01T17:19:21.015399"
+        },
+        {
+          "nrItem": 2,
+          "codProduct": 11654,
+          "qty": 55,
+          "vlUnit": 18.99,
+          "createdAt": "2026-02-01T17:19:21.015457"
+        },
+        {
+          "nrItem": 3,
+          "codProduct": 44221,
+          "qty": 15,
+          "vlUnit": 109.32,
+          "createdAt": "2026-02-01T17:19:21.015461"
+        }
+      ],
+      "createdAt": "2026-02-01T17:19:21.015471",
+      "updatedAt": null
+    }
+  ]
+}
+```
+
+Em caso de não haver nenhuma ordem de pedido calculada será lançado o erro:
+
+```bash
+{
+   "detail":"None order found with status: CALCULATION_OK",
+   "instance":"/v1/order/calculated",
+   "status":404,
+   "title":"Not Found",
+   "timestamp":"2026-02-01T17:49:16.14660804"
+}
+```

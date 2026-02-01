@@ -6,13 +6,11 @@ import br.com.ambev.order_api.application.controller.mapper.request.CreateOrderR
 import br.com.ambev.order_api.application.controller.mapper.response.CreateOrderResponseMapper;
 import br.com.ambev.order_api.application.controller.usecase.CreateOrderUseCase;
 import br.com.ambev.order_api.application.controller.usecase.GetOrderCalculated;
-import br.com.ambev.order_api.core.domain.Order;
+import br.com.ambev.order_api.core.domain.OrderCalculated;
 import br.com.ambev.order_api.core.enums.StatusOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/order")
@@ -39,7 +37,7 @@ public class OrderController {
     }
 
     @GetMapping("/calculated")
-    public ResponseEntity<List<Order>> getOrderCalculated() {
+    public ResponseEntity<OrderCalculated> getOrderCalculated() {
         return ResponseEntity.ok(getOrderCalculated.getOrderByStatus(StatusOrder.CALCULATION_OK));
     }
 }

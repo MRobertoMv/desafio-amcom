@@ -2,8 +2,10 @@ package br.com.ambev.order_api.infraestructure.service;
 
 import br.com.ambev.order_api.core.business.OrderBusiness;
 import br.com.ambev.order_api.core.domain.Order;
+import br.com.ambev.order_api.core.domain.OrderCalculated;
 import br.com.ambev.order_api.core.enums.StatusOrder;
 import br.com.ambev.order_api.core.exceptions.DuplicateNrOrderException;
+import br.com.ambev.order_api.core.exceptions.OrderCalculatedNotFoundException;
 import br.com.ambev.order_api.infraestructure.entity.OrderEntity;
 import br.com.ambev.order_api.infraestructure.mapper.OrderMapper;
 import br.com.ambev.order_api.infraestructure.repository.OrderRepository;
@@ -66,7 +68,13 @@ public class OrderService implements OrderBusiness {
     }
 
     @Override
-    public List<Order> getOrderByStatus(StatusOrder status) {
-        return List.of();
+    public OrderCalculated getOrderByStatus(StatusOrder status) {
+        List<OrderEntity> lstStatus = orderRepository.findByStatus(status);
+
+        if (lstStatus == null || lstStatus.isEmpty()){
+            throw new OrderCalculatedNotFoundException("None order found with status: ".concat(status.name()));
+        }
+
+        return new OrderCalculated(orderMapper.entityToModel(lstStatus));
     }
 }

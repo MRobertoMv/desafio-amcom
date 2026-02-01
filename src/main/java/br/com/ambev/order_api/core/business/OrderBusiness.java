@@ -1,15 +1,14 @@
 package br.com.ambev.order_api.core.business;
 
 import br.com.ambev.order_api.core.domain.Order;
+import br.com.ambev.order_api.core.domain.OrderCalculated;
 import br.com.ambev.order_api.core.enums.StatusOrder;
-
-import java.util.List;
 
 public interface OrderBusiness {
     Order createOrder(Order order);
 
     void calculateItems(Order order);
 
-    List<Order> getOrderByStatus(StatusOrder status);
+    OrderCalculated getOrderByStatus(StatusOrder status);
 
 }

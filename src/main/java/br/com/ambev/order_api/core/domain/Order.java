@@ -25,8 +25,6 @@ public record Order(
 
         if (status == null) {
             throw new OrderBadRequestException("Status is required");
-        } else if (!StatusOrder.NEW_ORDER.equals(status)) {
-            throw new OrderBadRequestException("Status invalid for new order");
         }
 
         if (createdAt == null) {
