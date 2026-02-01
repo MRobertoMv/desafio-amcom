@@ -33,7 +33,7 @@ https://oneuptime.com/blog/post/2026-01-16-docker-desktop-alternatives/view
 ```bash
 curl --request POST \
   --url http://localhost:9080/v1/order \
-  --header 'authorization: Basic {gerar informando usuario user e a senha dinâmica gerada}}' \
+  --header 'authorization: Basic dXNlcjpiMzNlMGIxMy02NTZlLTQ0OTYtYWY2Mi1lYWU2MDBiYTEyZmM=' \
   --header 'content-type: application/json' \
   --data '{
   "nrOrder": "PED0099",
@@ -43,6 +43,18 @@ curl --request POST \
       "codProduct": 87654,
       "qty": 10,
       "vlUnit": 1045.87
+    },
+    {
+      "nrItem": 2,
+      "codProduct": 11654,
+      "qty": 55,
+      "vlUnit": 18.99
+    },
+    {
+      "nrItem": 3,
+      "codProduct": 44221,
+      "qty": 15,
+      "vlUnit": 109.32
     }
   ]
 }'
@@ -59,8 +71,20 @@ resultado:
       "codProduct": 87654,
       "qty": 10.0,
       "vlUnit": 1045.87
+    },
+    {
+      "nrItem": 2,
+      "codProduct": 11654,
+      "qty": 55.0,
+      "vlUnit": 18.99
+    },
+    {
+      "nrItem": 3,
+      "codProduct": 44221,
+      "qty": 15.0,
+      "vlUnit": 109.32
     }
   ],
-  "createdAt": "2026-01-30T21:12:24.01721786"
+  "createdAt": "2026-02-01T10:44:21.445635419"
 }
 ```

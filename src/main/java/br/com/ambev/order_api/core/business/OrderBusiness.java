@@ -8,7 +8,7 @@ import java.util.List;
 public interface OrderBusiness {
     Order createOrder(Order order);
 
-    Order calculateItems(Order order);
+    void calculateItems(Order order);
 
     List<Order> getOrderByStatus(StatusOrder status);
 

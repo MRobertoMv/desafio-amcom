@@ -11,23 +11,6 @@ spring:
 #      password: a!m#Com
 #      roles: USER,ADMIN
 
-  kafka:
-    bootstrap-servers: localhost:9092
-
-    consumer:
-      auto-offset-reset: earliest
-      bootstrap-servers: localhost:29092
-      group-id: order_api_group
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring.json.trusted.packages: com.learning.events # change this with your event packages
-      producer:
-        acks: -1
-        bootstrap-servers: localhost:29092
-        key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-
   jpa:
     hibernate:
     ddl-auto: none
@@ -51,18 +34,41 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    enable:
+      metrics:
+        push: false
+
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: localhost:29092
+      group-id: order_api_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: com.learning.events # change this with your event packages
+      producer:
+        acks: -1
+        bootstrap-servers: localhost:29092
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: Try IntelliJ IDEA Ultimate
+
 logging:
   level:
     br:
       com:
-        ambev: TRACE
+        ambev: INFO
 
     org:
       hibernate: ERROR
-      springframework: TRACE
+      springframework: INFO
+      apache:
+        kafka:
+          clients: DEBUG
 
 
-# Optional: Flyway specific properties (defaults are usually fine)
+  # Optional: Flyway specific properties (defaults are usually fine)
   flyway:
     enabled: true
   # Specifies the location of migration scripts (default is classpath:db/migration)
