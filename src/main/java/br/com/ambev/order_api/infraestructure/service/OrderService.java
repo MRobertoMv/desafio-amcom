@@ -9,6 +9,10 @@ import br.com.ambev.order_api.core.exceptions.OrderCalculatedNotFoundException;
 import br.com.ambev.order_api.infraestructure.entity.OrderEntity;
 import br.com.ambev.order_api.infraestructure.mapper.OrderMapper;
 import br.com.ambev.order_api.infraestructure.repository.OrderRepository;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +25,7 @@ import java.util.List;
 public class OrderService implements OrderBusiness {
 
     private static final Logger log = LogManager.getLogger(OrderService.class);
+    private static final String BACKEND = "orderService";
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
@@ -32,9 +37,12 @@ public class OrderService implements OrderBusiness {
 
     @Transactional
     @Override
+    @CircuitBreaker(name = BACKEND)
+    @RateLimiter(name = BACKEND)
+    @Bulkhead(name = BACKEND)
+    @Retry(name = BACKEND)
     public Order createOrder(Order order) {
 
-        ;
         if (orderRepository.findByNrOrder(order.nrOrder()) != null){
             throw new DuplicateNrOrderException("Number order existis: ".concat(order.nrOrder()));
         }
