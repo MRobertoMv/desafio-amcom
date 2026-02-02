@@ -79,11 +79,15 @@ app:
     name: order_calcule_topic
 
 management:
-  health:
-    circuitbreakers:
-      enabled: true
-    ratelimiters:
-      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env
+
+  metrics:
+    enable:
+      jdbc:
+        connections: true
 
 resilience4j.circuitbreaker:
   configs:
