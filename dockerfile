@@ -1,11 +1,17 @@
-# Use a specific JDK image as the base
-FROM openjdk:21-jdk-slim AS build
+FROM maven:3.9.4-eclipse-temurin-21 AS build
+ADD . /build
+RUN cd /build && mvn package
 
-# Set the working directory
-WORKDIR /app
-
-# Copy the packaged JAR file into the container
-COPY target/*.jar app.jar
-
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM openjdk:21
+COPY --from=build /build/target/*.jar /app.jar
+COPY opentelemetry-javaagent.jar /opentelemetry-javaagent.jar
+ENTRYPOINT ["java", \
+  "-javaagent:/opentelemetry-javaagent.jar", \
+  "-Dotel.javaagent.enabled=true", \
+  "-Dotel.exporter.otlp.endpoint=<YOUR_HOST>", \
+  "-Dotel.exporter.otlp.headers=Authorization=Bearer <YOUR_BEARER_TOKEN>", \
+  "-Dotel.logs.explorer=otlp", \
+  "-Dotel.metrics.explorer=otlp", \
+  "-Dotel.resource.attributes.service.name=<YOUR_SERVICE_NAME>", \
+  "-jar", "/app.jar" \
+]

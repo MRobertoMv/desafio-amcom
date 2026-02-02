@@ -8,6 +8,7 @@ services:
     container_name: zookeeper
     depends_on:
       - postgres
+      - otel-collector
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -76,6 +77,28 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  # OpenTelemetry Collector
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest # Use a recent version
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317" # OTLP gRPC endpoint (recommended)
+      - "4318:4318" # OTLP HTTP endpoint
+      - "8889:8889" # Prometheus metrics endpoint
+    depends_on:
+      - jaeger
+
+  # Jaeger for visualization
+  jaeger:
+    image: jaegertracing/jaeger:latest # Use a recent version
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "14250:14250" # gRPC collector port
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
 
 volumes:
   pg_data:
