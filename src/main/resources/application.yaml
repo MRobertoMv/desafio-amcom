@@ -5,17 +5,10 @@ spring:
   application:
     name: order-api
 
-#  security:
-#    user:
-#      name: order-user
-#      password: a!m#Com
-#      roles: USER,ADMIN
-
   jpa:
     hibernate:
     ddl-auto: none
     show-sql: true
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         id:
@@ -56,16 +49,17 @@ spring:
 
 logging:
   level:
+    kafka: OFF
     br:
       com:
         ambev: INFO
 
     org:
-      hibernate: ERROR
+      hibernate: INFO
       springframework: INFO
       apache:
         kafka:
-          clients: DEBUG
+          clients: OFF
 
 
   # Optional: Flyway specific properties (defaults are usually fine)
@@ -82,12 +76,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,env
-
-  metrics:
-    enable:
-      jdbc:
-        connections: true
+        include: health,info
 
 resilience4j.circuitbreaker:
   configs:
