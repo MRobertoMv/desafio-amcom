@@ -4,7 +4,10 @@ import br.com.ambev.order_api.application.controller.usecase.CreateOrderUseCase;
 import br.com.ambev.order_api.core.domain.Order;
 import br.com.ambev.order_api.core.message.SendOrderCalculationMessage;
 import br.com.ambev.order_api.infraestructure.service.OrderService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.CompletableFuture;
 
 @Component
 public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
@@ -24,7 +27,10 @@ public class CreateOrderUseCaseImpl implements CreateOrderUseCase {
         return orderResult;
     }
 
-    public void sendOrderToCalculate(Order order) {
-        sendOrderCalculationMessage.sendOrderToCalculate(order);
+    @Async
+    public CompletableFuture<Void> sendOrderToCalculate(Order order) {
+        return CompletableFuture.runAsync(() -> {
+            sendOrderCalculationMessage.sendOrderToCalculate(order);
+        });
     }
 }

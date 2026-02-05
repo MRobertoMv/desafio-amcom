@@ -27,8 +27,9 @@ public class ReceiveOrderCalculationMessageConsumer implements ReceiveOrderCalcu
             topics = "${app.topic.name}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
-    public void listenerOrderToCalculate(String strOrder) {
+    public void listenerOrderToCalculate(String strOrder) throws InterruptedException {
         log.info("listenerOrderToCalculate order: {}", strOrder);
+        Thread.sleep(20000);
         receiveOrderToCalculate(objectMapper.readValue(strOrder, Order.class));
     }
 
